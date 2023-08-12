@@ -1,9 +1,9 @@
-import Home from "./pages/Home";
 import "./assets/styles/app.scss"
+import MovieSearch from "./components/MovieSearch"
 
 function App() {
   return (
-    <Home />
+    <MovieSearch />
   )
 }
 

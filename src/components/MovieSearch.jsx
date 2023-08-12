@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { httpService } from '../api/axios';
+import { Link } from 'react-router-dom';
 
 function MovieSearch() {
   const [searchValue, setSearchValue] = useState('');
@@ -35,11 +36,13 @@ function MovieSearch() {
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {movies.map((movie) => (
           <li key={movie.imdbID} className="bg-white rounded-lg shadow-md p-4">
-            <img
-              src={movie.Poster}
-              alt={`${movie.Title} Poster`}
-              className="mb-2"
-            />
+            <Link to={`movie/${movie.imdbID}`}>
+              <img
+                src={movie.Poster}
+                alt={`${movie.Title} Poster`}
+                className="mb-2"
+              />
+            </Link>
             <h2 className="text-lg font-bold">{movie.Title}</h2>
             <p>{movie.Year}</p>
           </li>

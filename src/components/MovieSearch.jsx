@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import { httpService } from '../api/axios';
 import { Link } from 'react-router-dom';
+import Loader from './ui/Loader';
 
 function MovieSearch() {
   const [searchValue, setSearchValue] = useState('');
   const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
   const [filterType, setFilterType] = useState('movie');
 
   async function handleSearch(event) {
+    event.preventDefault()
+    setIsLoading(true)
+
     try {
-      event.preventDefault()
       const { data: { Search } } = await httpService.get(
         '/',
         {
@@ -18,9 +22,12 @@ function MovieSearch() {
             type: filterType,
           }
         })
+
       setMovies(Search);
     } catch (error) {
       console.error("Error fetching movies")
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -51,7 +58,7 @@ function MovieSearch() {
         </button>
       </form>
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        {movies.map((movie) => (
+        {isLoading ? <Loader /> : movies.map((movie) => (
           <li key={movie.imdbID} className="bg-white rounded-lg shadow-md p-4">
             <Link to={`movie/${movie.imdbID}`} target="_blank">
               <img
